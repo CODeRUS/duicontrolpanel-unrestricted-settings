@@ -1,0 +1,10 @@
+Parent=MainPage
+
+Name=Unrestricted System UI
+
+Icon=icon-m-status-menu-settings
+
+Aliases=Unrestricted
+
+Order=1000
+
