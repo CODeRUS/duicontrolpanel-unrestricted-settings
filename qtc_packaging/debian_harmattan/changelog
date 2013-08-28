@@ -1,0 +1,4 @@
+duicontrolpanel-unrestricted-settings (1.0.1) unstable; urgency=low
+  * Added custom LED notifications support
+
+ -- coderus <coderusinbox@gmail.com>  Wed, 28 Aug 2013 14:20:10 +0600

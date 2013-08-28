@@ -28,6 +28,7 @@ build-stamp: configure-stamp
 
 	# Add here commands to compile the package.
 	# $(MAKE) # Uncomment this line for use without Qt Creator
+	#docbook-to-man debian/duicontrolpanel-unrestricted-settings.sgml > duicontrolpanel-unrestricted-settings.1
 
 	touch $@
 
@@ -48,7 +49,7 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/duicontrolpanel-unrestricted-settings.
-	$(MAKE) INSTALL_ROOT="$(CURDIR)"/debian/tmp install
+	$(MAKE) INSTALL_ROOT="$(CURDIR)"/debian/duicontrolpanel-unrestricted-settings install
 
 
 # Build architecture-independent files here.
@@ -59,9 +60,9 @@ binary-indep: build install
 binary-arch: build install
 	dh_testdir
 	dh_testroot
-#	dh_installchangelogs 
-#	dh_installdocs
-#	dh_installexamples
+	dh_installchangelogs 
+	dh_installdocs
+	dh_installexamples
 #	dh_install
 #	dh_installmenu
 #	dh_installdebconf	
@@ -73,7 +74,7 @@ binary-arch: build install
 #	dh_installinit
 #	dh_installcron
 #	dh_installinfo
-#	dh_installman
+	dh_installman
 	dh_link
 	dh_strip
 	dh_compress
@@ -81,7 +82,7 @@ binary-arch: build install
 #	dh_perl
 #	dh_makeshlibs
 	dh_installdeb
-	dh_shlibdeps
+	# dh_shlibdeps # Uncomment this line for use without Qt Creator
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb

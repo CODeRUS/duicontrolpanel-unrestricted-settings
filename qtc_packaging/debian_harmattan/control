@@ -1,13 +1,13 @@
 Source: duicontrolpanel-unrestricted-settings
-Section: devel
+Section: user/other
 Priority: optional
 Maintainer: coderus <coderusinbox@gmail.com>
-Build-Depends: debhelper (>= 5), aegis-builder (>= 1.4),
-               libduicontrolpanel-dev, libqt4-meegographicssystemhelper-dev
-Standards-Version: 3.8.0
+Build-Depends: debhelper (>= 5), libqt4-dev
+Standards-Version: 3.7.3
 
 Package: duicontrolpanel-unrestricted-settings
 Architecture: any
 Section: user/other
 Depends: unrestricted-settings-support
 Description: Control panel applet with Unrestricted settings
+XSBC-Maemo-Display-Name: Unrestricted Settings
