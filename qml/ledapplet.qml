@@ -9,19 +9,12 @@ Column {
 
     GConf {
         id: gconf
-        onValueChanged: {
-            switch (key) {
-            case _LED_ENABLED: {
-                ledsAllowed = value
-                getLeds()
-                break;
-            }
-            }
-        }
     }
 
     Component.onCompleted: {
-        gconf.addWatcher(_LED_ENABLED)
+        var leds = []
+        leds = gconf.get(_LED_ENABLED, ["call","chat","sms","voicemail","email","facebook","twitter","organizer","wazapp","rocket"])
+        getLeds(leds)
     }
 
     function setLeds() {
@@ -46,23 +39,68 @@ Column {
             array.push("wazapp")
         if (ledRocket.checked)
             array.push("rocket")
+        if (customNotify.text.length > 0) {
+            var array2 = customNotify.text.split(",")
+            array = array.concat(array2)
+        }
         gconf.set(_LED_ENABLED, array)
     }
 
-    function getLeds() {
+    function getLeds(list) {
+        ledCall.checked = false
+        ledIm.checked = false
+        ledText.checked = false
+        ledVoice.checked = false
+        ledEmail.checked = false
+        ledFacebook.checked = false
+        ledTwitter.checked = false
+        ledOrganiser.checked = false
+        ledWazapp.checked = false
+        ledRocket.checked = false
+
         var array = []
-        if (typeof(ledsAllowed) != "undefined") {
-            array = array.concat(ledsAllowed)
-            ledCall.checked = array.indexOf("call") != -1
-            ledIm.checked = array.indexOf("chat") != -1
-            ledText.checked = array.indexOf("sms") != -1
-            ledVoice.checked = array.indexOf("voicemail") != -1
-            ledEmail.checked = array.indexOf("email") != -1
-            ledFacebook.checked = array.indexOf("facebook") != -1
-            ledTwitter.checked = array.indexOf("twitter") != -1
-            ledOrganiser.checked = array.indexOf("organizer") != -1
-            ledWazapp.checked = array.indexOf("wazapp") != -1
-            ledRocket.checked = array.indexOf("rocket") != -1
+        if (typeof(list) != "undefined") {
+            array = array.concat(list)
+            var custom = []
+
+            for (var i = 0; i < array.length; i ++) {
+                var item = array[i]
+                if (item == "call") {
+                    ledCall.checked = true
+                }
+                else if (item == "chat") {
+                    ledIm.checked = true
+                }
+                else if (item == "sms") {
+                    ledText.checked = true
+                }
+                else if (item == "voicemail") {
+                    ledVoice.checked = true
+                }
+                else if (item == "email") {
+                    ledEmail.checked = true
+                }
+                else if (item == "facebook") {
+                    ledFacebook.checked = true
+                }
+                else if (item == "twitter") {
+                    ledTwitter.checked = true
+                }
+                else if (item == "organizer") {
+                    ledOrganiser.checked = true
+                }
+                else if (item == "wazapp") {
+                    ledWazapp.checked = true
+                }
+                else if (item == "rocket") {
+                    ledRocket.checked = true
+                }
+                else {
+                    custom.splice(0, 0, item)
+                }
+            }
+
+            customNotify.text = custom.join(",")
         }
         else {
             ledCall.checked = true
@@ -198,7 +236,27 @@ Column {
             }
         }
 
-        Rectangle {
+        Separator {
+            width: parent.width
+            title: "Custom events"
+        }
+
+        TextField {
+            id: customNotify
+            placeholderText: "custom notifications, comma separated"
+            width: parent.width
+            onTextChanged: {
+                setLeds()
+            }
+        }
+
+        Label {
+            width: parent.width
+            text: "List of notifications genericTextCatalogue values, comma separated"
+            wrapMode: Text.WordWrap
+        }
+
+        Rectangle { 
             width: 1
             height: 10
             color: "transparent"
